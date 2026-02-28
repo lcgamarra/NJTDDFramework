@@ -183,3 +183,75 @@ Assert.CloseBelow(Context, 110.0);
 Assert.BullishBar(Context);
 Assert.BearishBar(Context);
 ```
+
+### Test Context
+
+The `TestContext` provides runtime state and market data access:
+
+```csharp
+[TestCase]
+public void UsingTestContext()
+{
+    // Store/retrieve data
+    Context.Set("lastPrice", Close[0]);
+    double price = Context.Get<double>("lastPrice");
+
+    // Check data existence
+    bool exists = Context.Contains("lastPrice");
+
+    // Access market data
+    double close = Context.Close[0];
+    int bar = Context.CurrentBar;
+
+    // Print to Output window
+    Context.Print("Test message");
+}
+```
+
+## Advanced Usage
+
+### Testing Indicators
+
+```csharp
+[NinjaTest]
+public class ADL : Indicator
+{
+    protected override void OnBarUpdate()
+    {
+        // Indicator logic
+        AD[0] = /* calculation */;
+    }
+
+    [TestCase]
+    public void TestADCalculation()
+    {
+        // Test your indicator logic
+        Assert.IsNotNull(AD);
+        Assert.IndicatorIsValid(AD);
+    }
+
+    #region Properties
+    [Browsable(false)]
+    public Series<double> AD => Values[0];
+    #endregion
+}
+```
+
+### Testing with TestContext
+
+```csharp
+[NinjaTest]
+public class CrossoverTests : NinjaTestBase
+{
+    [TestCase]
+    public void TestSMACrossover()
+    {
+        if (CurrentBar < 20)
+            return;
+
+        // Test logic with market data
+        bool crossAbove = Close[0] > Close[1];
+        Assert.IsTrue(crossAbove, "Price should cross above SMA");
+    }
+}
+```
