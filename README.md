@@ -53,3 +53,21 @@ namespace NinjaTrader.NinjaScript.Indicators
 3. **View Results**:
     - Check the Output window for detailed test results
     - Look for green/red markers on the chart
+
+## Framework Components
+
+### Attributes
+
+#### `[NinjaTest]` - Class Attribute
+Marks a class as containing tests. Supports various configuration options:
+
+```csharp
+[NinjaTest]
+public class BasicTests : NinjaTestBase { }
+
+[NinjaTest(RunAtBar = 100, Category = "Integration")]
+public class AdvancedTests : NinjaTestBase { }
+
+[NinjaTest(MinimumBars = 50, RequiredPeriodType = "Minute")]
+public class DataTests : NinjaTestBase { }
+```
