@@ -255,3 +255,63 @@ public class CrossoverTests : NinjaTestBase
     }
 }
 ```
+
+### Running Tests at Specific Bars
+
+```csharp
+// Run at bar 100 only
+[NinjaTest(RunAtBar = 100)]
+public class SpecificBarTest : NinjaTestBase
+{
+    [TestCase]
+    public void TestAtBar100()
+    {
+        Assert.AreEqual(100, CurrentBar);
+    }
+}
+
+// Run every 10 bars
+[NinjaTest(RunEveryNBars = 10)]
+public class RepeatedTest : NinjaTestBase
+{
+    [TestCase]
+    public void TestEvery10Bars()
+    {
+        // Runs at bars 10, 20, 30, etc.
+    }
+}
+```
+
+### Filtering Tests
+
+Configure TestRunner to filter which tests run:
+
+- **Namespace Filter**: Only run tests in specific namespace
+   - `"NinjaTrader.NinjaScript.Indicators"` - Only indicator tests
+   - `"NinjaTrader.NinjaScript.Strategies"` - Only strategy tests
+   - `""` (empty) - All tests
+
+- **Test Name Filter**: Only run tests with matching names
+   - `"SMA"` - Only tests with "SMA" in class name
+   - `""` (empty) - All tests
+
+## Test Results
+
+### Output Window Format
+
+```
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+TestRunner Results (Bar 50, 2024-01-15 14:30:00)
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+
+MyTestClass:
+   TestMethod1 - PASSED (2.45ms)
+   TestMethod2 - FAILED (1.23ms)
+     Error: Expected: <100>, but was: <95>
+     Stack: at MyTestClass.TestMethod2() in ...
+
+                                                       
+Total: 2 | Passed: 1 | Failed: 1 | Skipped: 0
+Success Rate: 50.0%
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+```
