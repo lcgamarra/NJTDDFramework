@@ -71,3 +71,26 @@ public class AdvancedTests : NinjaTestBase { }
 [NinjaTest(MinimumBars = 50, RequiredPeriodType = "Minute")]
 public class DataTests : NinjaTestBase { }
 ```
+
+**Properties**:
+- `Name`: Display name
+- `Description`: Test description
+- `RunAtBar`: Specific bar to run tests (default: -1 = use TestRunner setting)
+- `Category`: Test category for organization
+- `MinimumBars`: Minimum bars required
+- `RequiredPeriodType`: Required bar period type
+- `RunEveryNBars`: Run tests repeatedly every N bars
+
+#### `[TestCase]` - Method Attribute
+Marks a method as a test case:
+
+```csharp
+[TestCase]
+public void TestMethod() { }
+
+[TestCase(Name = "Custom Name", Description = "What this tests")]
+public void DetailedTest() { }
+
+[TestCase(Skip = "Not implemented yet")]
+public void SkippedTest() { }
+```
