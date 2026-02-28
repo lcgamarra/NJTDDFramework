@@ -121,3 +121,65 @@ public class MyTests : NinjaTestBase
     }
 }
 ```
+**Available Properties**:
+- `Context`: TestContext instance
+- `Close`, `Open`, `High`, `Low`, `Volume`: Price/volume data
+- `Median`, `Typical`, `Weighted`: Calculated prices
+- `CurrentBar`, `Count`: Bar information
+- `Bars`, `Instrument`, `TickSize`: Trading context
+
+### Assertions
+
+#### Standard Assertions
+
+```csharp
+// Equality
+Assert.AreEqual(expected, actual);
+Assert.AreEqual(100.5, actual, 0.1); // With tolerance
+Assert.AreNotEqual(notExpected, actual);
+
+// Boolean
+Assert.IsTrue(condition);
+Assert.IsFalse(condition);
+
+// Null checks
+Assert.IsNull(obj);
+Assert.IsNotNull(obj);
+
+// Comparisons
+Assert.Greater(actual, threshold);
+Assert.GreaterOrEqual(actual, threshold);
+Assert.Less(actual, threshold);
+Assert.LessOrEqual(actual, threshold);
+
+// Exceptions
+Assert.Throws<ArgumentException>(() => { /* code */ });
+Assert.DoesNotThrow(() => { /* code */ });
+
+// Failure
+Assert.Fail("Test failed for reason");
+```
+
+#### Trading-Specific Assertions
+
+```csharp
+// Indicator values
+Assert.IndicatorValue(sma, 100.0, tolerance: 0.01);
+Assert.IndicatorValue(sma, barsAgo: 1, expectedValue: 99.5);
+Assert.IndicatorIsValid(indicator);
+
+// Series comparisons
+Assert.CrossedAbove(sma, ema, barsAgo: 1);
+Assert.CrossedBelow(sma, ema, barsAgo: 1);
+Assert.SeriesAbove(sma, ema);
+Assert.SeriesBelow(sma, ema);
+
+// Price assertions
+Assert.PriceInRange(Close[0], 100, 110);
+Assert.CloseAbove(Context, 100.0);
+Assert.CloseBelow(Context, 110.0);
+
+// Bar patterns
+Assert.BullishBar(Context);
+Assert.BearishBar(Context);
+```
