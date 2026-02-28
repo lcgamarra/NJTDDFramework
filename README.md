@@ -38,4 +38,18 @@ namespace NinjaTrader.NinjaScript.Indicators
     }
 }
 ```
+### 2. Running Tests
 
+1. **Add TestRunner to a Chart**:
+    - Open a chart in NinjaTrader
+    - Right-click ’ Indicators ’ TestRunner
+
+2. **Configure TestRunner Parameters**:
+    - **Namespace Filter**: Set to your test namespace (e.g., `"NinjaTrader.NinjaScript.Indicators"`) or empty for all
+    - **Start Test At Bar**: Bar number when tests should run (default: 50)
+    - **Enable Logging**: `true` to see results in Output window
+    - **Show Results On Chart**: `true` for visual feedback
+
+3. **View Results**:
+    - Check the Output window for detailed test results
+    - Look for green/red markers on the chart
