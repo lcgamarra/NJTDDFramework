@@ -94,3 +94,30 @@ public void DetailedTest() { }
 [TestCase(Skip = "Not implemented yet")]
 public void SkippedTest() { }
 ```
+
+### Base Classes
+
+#### `NinjaTestBase`
+Inherit from this class for full testing capabilities with market data access:
+
+```csharp
+[NinjaTest]
+public class MyTests : NinjaTestBase
+{
+    [TestCase]
+    public void TestWithMarketData()
+    {
+        // Access market data
+        double close = Close[0];
+        double high = High[0];
+        int bar = CurrentBar;
+
+        // Access test context
+        Context.Set("myKey", "myValue");
+        string value = Context.Get<string>("myKey");
+
+        // Assertions
+        Assert.Greater(high, close);
+    }
+}
+```
