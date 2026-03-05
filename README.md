@@ -322,12 +322,6 @@ PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 - Red diamond: Some tests failed
 - Text shows: "Tests: X/Y" (passed/total)
 
-## Configuration
-
-### TestRunner Properties
-
-
-
 ## Troubleshooting
 
 ### Tests Not Discovered
@@ -422,3 +416,11 @@ namespace NinjaTrader.NinjaScript.AddOns.Tests
     }
 }
 ```
+
+## License
+
+This framework is designed for use with NinjaTrader 8 platform.
+
+## Support
+
+For issues or questions, please send an email to lc@silveralgo.com
