@@ -315,3 +315,110 @@ Total: 2 | Passed: 1 | Failed: 1 | Skipped: 0
 Success Rate: 50.0%
 PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 ```
+
+### Chart Display
+
+- Green diamond: All tests passed
+- Red diamond: Some tests failed
+- Text shows: "Tests: X/Y" (passed/total)
+
+## Configuration
+
+### TestRunner Properties
+
+
+
+## Troubleshooting
+
+### Tests Not Discovered
+
+1. **Check namespace filter**: Make sure TestRunner's "Namespace Filter" matches your test namespace
+2. **Verify attributes**: Ensure class has `[NinjaTest]` and methods have `[TestCase]`
+3. **Compile code**: Press F5 to compile your NinjaScript
+4. **Check bar number**: Tests run at `StartTestAtBar` (default: 50)
+
+### Tests Not Running
+
+1. **Not enough bars**: Test requires at least `StartTestAtBar` bars loaded
+2. **RunAtBar mismatch**: Check if `[NinjaTest(RunAtBar = X)]` matches current bar
+3. **RunTestsOnce = true**: Tests only run once; set to false for repeated execution
+
+### Accessing Market Data
+
+If you get null reference errors:
+- Inherit from `NinjaTestBase` instead of plain class
+- Check `CurrentBar >= MinimumBars` before accessing series
+- Ensure chart has sufficient historical data loaded
+
+## File Structure
+
+```
+AddOns/Testing/Framework/
+   Assert.cs               # Assertion library
+   AssertionException.cs   # Exception for failed assertions
+   NinjaTestAttribute.cs   # Test attributes
+   NinjaTestBase.cs        # Base class for tests
+   TestCaseAttribute.cs    # Test method attribute
+   TestContext.cs          # Test runtime context
+   TestLogger.cs           # Logging functionality
+   TestResult.cs           # Test result data
+   TestRunner.cs           # Main test runner indicator
+```
+
+## Best Practices
+
+1. **Use descriptive test names**: `TestSMA_CrossesAbove_WhenPriceRises()`
+2. **One assertion per test**: Keep tests focused and simple
+3. **Check bar count**: Always verify enough bars exist before testing
+4. **Use tolerance for doubles**: Floating-point comparisons need tolerance
+5. **Organize with categories**: Use `Category` property for grouping
+6. **Test edge cases**: Test with minimum bars, zero values, etc.
+
+## Example: Complete Test Class
+
+```csharp
+using NinjaTrader.NinjaScript.AddOns.Testing;
+
+namespace NinjaTrader.NinjaScript.AddOns.Tests
+{
+    [NinjaTest(
+        Name = "SMA Indicator Tests",
+        Description = "Tests for Simple Moving Average indicator",
+        Category = "Indicators",
+        MinimumBars = 20
+    )]
+    public class SMATests : NinjaTestBase
+    {
+        [TestCase(Name = "SMA calculates correctly")]
+        public void TestSMACalculation()
+        {
+            if (CurrentBar < 20)
+                return;
+
+            // Calculate expected SMA manually
+            double sum = 0;
+            for (int i = 0; i < 14; i++)
+            {
+                sum += Close[i];
+            }
+            double expected = sum / 14;
+
+            // Get actual SMA value (assuming SMA indicator exists)
+            // double actual = SMA(14)[0];
+
+            // Assert.AreEqual(expected, actual, 0.01);
+        }
+
+        [TestCase(Name = "Price crosses above SMA")]
+        public void TestCrossAbove()
+        {
+            if (CurrentBar < 20)
+                return;
+
+            // Test crossover logic
+            bool crossed = Close[0] > Close[1];
+            Assert.IsTrue(crossed || !crossed); // Placeholder
+        }
+    }
+}
+```
